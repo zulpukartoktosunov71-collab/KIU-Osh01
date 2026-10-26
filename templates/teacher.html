@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+
+<html lang="ky">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Мугалим кабинети</title>
+
+<style>
+
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        font-family: "Segoe UI", Arial, sans-serif;
+        background: #f4f7f6;
+        color: #17372c;
+    }
+
+    .teacher-layout {
+        display: flex;
+        min-height: 100vh;
+    }
+
+    /* SIDEBAR */
+
+    .sidebar {
+        width: 270px;
+        background: #073b2b;
+        color: white;
+        padding: 25px 18px;
+        flex-shrink: 0;
+    }
+
+    .brand {
+        text-align: center;
+        padding-bottom: 25px;
+        border-bottom: 1px solid rgba(255,255,255,.15);
+        margin-bottom: 25px;
+    }
+
+    .brand-logo {
+        width: 85px;
+        height: 85px;
+        object-fit: contain;
+        background: white;
+        padding: 6px;
+        border-radius: 15px;
+        margin-bottom: 12px;
+    }
+
+    .brand h2 {
+        margin: 0;
+        font-size: 15px;
+        line-height: 1.5;
+    }
+
+    .brand p {
+        margin: 8px 0 0;
+        color: #a9d8c7;
+        font-size: 12px;
+    }
+
+    .menu-title {
+        color: #86b8a6;
+        font-size: 11px;
+        text-transform: uppercase;
+        margin: 0 10px 10px;
+    }
+
+    .menu a {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 14px;
+        margin-bottom: 6px;
+        border-radius: 9px;
+        color: #d8eee6;
+        text-decoration: none;
+        font-size: 14px;
+    }
+
+    .menu a:hover,
+    .menu a.active {
+        background: #0a5a43;
+        color: white;
+    }
+
+    .logout-link {
+        margin-top: 25px !important;
+        color: #ffb4b4 !important;
+    }
+
+    /* MAIN */
+
+    .main {
+        flex: 1;
+        min-width: 0;
+        padding: 28px;
+    }
+
+    .top-header {
+        background: white;
+        border: 1px solid #e1e9e5;
+        border-radius: 18px;
+        padding: 25px 28px;
+        margin-bottom: 22px;
+    }
+
+    .top-header h1 {
+        margin: 0 0 7px;
+        font-size: 27px;
+        color: #123c2e;
+    }
+
+    .top-header p {
+        margin: 0;
+        color: #718079;
+        font-size: 14px;
+    }
+
+    /* STATS */
+
+    .stats {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+        margin-bottom: 22px;
+    }
+
+    .stat-card {
+        background: white;
+        border: 1px solid #e1e9e5;
+        border-radius: 16px;
+        padding: 20px;
+    }
+
+    .stat-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .stat-icon {
+        font-size: 25px;
+    }
+
+    .stat-card h3 {
+        margin: 0;
+        font-size: 13px;
+        color: #74827c;
+        font-weight: 600;
+    }
+
+    .number {
+        margin-top: 10px;
+        font-size: 29px;
+        font-weight: 800;
+        color: #087653;
+    }
+
+    /* SECTION */
+
+    .section {
+        background: white;
+        border: 1px solid #e1e9e5;
+        border-radius: 18px;
+        padding: 25px;
+        margin-bottom: 22px;
+    }
+
+    .section-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+
+    .section h2 {
+        margin: 0;
+        color: #123c2e;
+        font-size: 20px;
+    }
+
+    .section-description {
+        color: #7a8982;
+        font-size: 13px;
+        margin-top: 5px;
+    }
+
+    /* ASSIGNMENTS */
+
+    .assignment-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 17px;
+    }
+
+    .assignment-card {
+        border: 1px solid #e1e9e5;
+        border-radius: 15px;
+        padding: 20px;
+        background: #fafcfb;
+        transition: .2s;
+    }
+
+    .assignment-card:hover {
+        border-color: #9ac8b7;
+        transform: translateY(-2px);
+    }
+
+    .subject-icon {
+        width: 44px;
+        height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #eaf6f1;
+        border-radius: 12px;
+        font-size: 21px;
+        margin-bottom: 13px;
+    }
+
+    .assignment-card h3 {
+        margin: 0 0 13px;
+        color: #075e46;
+        font-size: 17px;
+    }
+
+    .info {
+        padding: 9px 0;
+        border-bottom: 1px solid #edf1ef;
+        color: #6e7c75;
+        font-size: 13px;
+    }
+
+    .info:last-of-type {
+        border-bottom: none;
+    }
+
+    .info strong {
+        color: #263d34;
+    }
+
+    /* BUTTONS */
+
+    .buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 9px;
+        margin-top: 17px;
+    }
+
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px 13px;
+        border-radius: 9px;
+        text-decoration: none;
+        color: white;
+        background: #087653;
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    .btn:hover {
+        opacity: .9;
+    }
+
+    .btn.blue {
+        background: #2563eb;
+    }
+
+    .btn.red {
+        background: #dc3545;
+    }
+
+    .btn.light {
+        background: #edf8f3;
+        color: #087653;
+    }
+
+    .empty {
+        padding: 25px;
+        text-align: center;
+        background: #f7faf8;
+        border-radius: 12px;
+        color: #7a8982;
+    }
+
+    /* QUICK ACTIONS */
+
+    .quick-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+    }
+
+    .quick-card {
+        display: block;
+        padding: 18px;
+        border: 1px solid #e1e9e5;
+        border-radius: 13px;
+        text-decoration: none;
+        background: #fafcfb;
+    }
+
+    .quick-card:hover {
+        border-color: #9ac8b7;
+        background: #f5faf7;
+    }
+
+    .quick-card strong {
+        display: block;
+        margin-bottom: 5px;
+        color: #123c2e;
+    }
+
+    .quick-card span {
+        color: #7a8982;
+        font-size: 12px;
+    }
+
+    /* RESPONSIVE */
+
+    @media (max-width: 1050px) {
+
+        .sidebar {
+            width: 230px;
+        }
+
+        .stats {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .assignment-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+    }
+
+    @media (max-width: 750px) {
+
+        .teacher-layout {
+            display: block;
+        }
+
+        .sidebar {
+            width: 100%;
+            padding: 18px;
+        }
+
+        .brand {
+            padding-bottom: 18px;
+            margin-bottom: 18px;
+        }
+
+        .menu {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 5px;
+        }
+
+        .menu a {
+            margin: 0;
+        }
+
+        .main {
+            padding: 15px;
+        }
+
+        .assignment-grid,
+        .quick-grid {
+            grid-template-columns: 1fr;
+        }
+
+    }
+
+    @media (max-width: 500px) {
+
+        .stats {
+            grid-template-columns: 1fr;
+        }
+
+        .top-header h1 {
+            font-size: 22px;
+        }
+
+        .section {
+            padding: 18px;
+        }
+
+        .menu {
+            grid-template-columns: 1fr;
+        }
+
+    }
+
+</style>
+
+</head>
+
+<body>
+
+<div class="teacher-layout">
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+
+    <div class="brand">
+
+        <img
+            src="{{ url_for('static', filename='images/logo.png') }}"
+            alt="Логотип"
+            class="brand-logo"
+        >
+
+        <h2>
+            Кыргызстан Ислам Университети<br>
+            Ош колледжи<br>
+            Куран жаттатуу борбору
+        </h2>
+
+        <p>
+            Мугалим кабинети
+        </p>
+
+    </div>
+
+
+    <p class="menu-title">
+        Башкы меню
+    </p>
+
+
+    <nav class="menu">
+
+        <a href="{{ url_for('teacher') }}"
+           class="active">
+            🏠 Башкы бет
+        </a>
+
+        {% if assignments %}
+
+        <a href="{{ url_for(
+            'lesson_page',
+            assignment_id=assignments[0]['id']
+        ) }}">
+            📚 Сабак журналы
+        </a>
+
+        <a href="{{ url_for(
+            'teacher_students',
+            assignment_id=assignments[0]['id']
+        ) }}">
+            👨‍🎓 Студенттер
+        </a>
+
+        {% endif %}
+
+        <a href="{{ url_for('logout') }}"
+           class="logout-link">
+            🚪 Чыгуу
+        </a>
+
+    </nav>
+
+
+</aside>
+
+
+<!-- MAIN -->
+
+<main class="main">
+
+
+    <!-- HEADER -->
+
+    <header class="top-header">
+
+        <h1>
+            👨‍🏫 Мугалим кабинети
+        </h1>
+
+        <p>
+            Сизге дайындалган сабактарды жана студенттерди башкаруу
+        </p>
+
+    </header>
+
+
+    <!-- STATS -->
+
+    <div class="stats">
+
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <h3>
+                    📚 Сабактар
+                </h3>
+
+                <span class="stat-icon">
+                    📚
+                </span>
+
+            </div>
+
+            <div class="number">
+                {{ assignments|length }}
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <h3>
+                    👨‍🎓 Студенттер
+                </h3>
+
+                <span class="stat-icon">
+                    👨‍🎓
+                </span>
+
+            </div>
+
+            <div class="number">
+                {{ total_students }}
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <h3>
+                    📖 Өткөн сабактар
+                </h3>
+
+                <span class="stat-icon">
+                    📖
+                </span>
+
+            </div>
+
+            <div class="number">
+                {{ total_lessons }}
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <h3>
+                    📊 Катышуу
+                </h3>
+
+                <span class="stat-icon">
+                    📊
+                </span>
+
+            </div>
+
+            <div class="number">
+                {{ attendance_percent }}%
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- ASSIGNMENTS -->
+
+    <section class="section">
+
+
+        <div class="section-header">
+
+            <div>
+
+                <h2>
+                    📚 Менин сабактарым
+                </h2>
+
+                <div class="section-description">
+                    Сизге дайындалган сабактар
+                </div>
+
+            </div>
+
+        </div>
+
+
+        {% if assignments %}
+
+
+        <div class="assignment-grid">
+
+
+            {% for assignment in assignments %}
+
+
+            <div class="assignment-card">
+
+
+                <div class="subject-icon">
+                    📖
+                </div>
+
+
+                <h3>
+                    {{ assignment["subject_name"] }}
+                </h3>
+
+
+                <div class="info">
+
+                    🎓 Курс:
+
+                    <strong>
+                        {{ assignment["course_name"] }}
+                    </strong>
+
+                </div>
+
+
+                <div class="info">
+
+                    👨‍🎓 Студенттер:
+
+                    <strong>
+                        {{ assignment["student_count"] }}
+                    </strong>
+
+                </div>
+
+
+                <div class="buttons">
+
+
+                    <a
+                        class="btn"
+                        href="{{ url_for(
+                            'lesson_page',
+                            assignment_id=assignment['id']
+                        ) }}"
+                    >
+                        📚 Журнал
+                    </a>
+
+
+                    <a
+                        class="btn blue"
+                        href="{{ url_for(
+                            'teacher_students',
+                            assignment_id=assignment['id']
+                        ) }}"
+                    >
+                        👨‍🎓 Студенттер
+                    </a>
+
+
+                </div>
+
+
+            </div>
+
+
+            {% endfor %}
+
+
+        </div>
+
+
+        {% else %}
+
+
+        <div class="empty">
+
+            📭 Азырынча сизге сабак дайындалган эмес.
+
+        </div>
+
+
+        {% endif %}
+
+
+    </section>
+
+
+    <!-- QUICK ACTIONS -->
+
+    <section class="section">
+
+
+        <div class="section-header">
+
+            <div>
+
+                <h2>
+                    ⚡ Тез аракеттер
+                </h2>
+
+                <div class="section-description">
+                    Көп колдонулган бөлүмдөргө тез өтүү
+                </div>
+
+            </div>
+
+        </div>
+
+
+        {% if assignments %}
+
+
+        <div class="quick-grid">
+
+
+            <a
+                class="quick-card"
+                href="{{ url_for(
+                    'lesson_page',
+                    assignment_id=assignments[0]['id']
+                ) }}"
+            >
+
+                <strong>
+                    📚 Сабак журналы
+                </strong>
+
+                <span>
+                    Сабактарды жана бааларды башкаруу
+                </span>
+
+            </a>
+
+
+            <a
+                class="quick-card"
+                href="{{ url_for(
+                    'teacher_students',
+                    assignment_id=assignments[0]['id']
+                ) }}"
+            >
+
+                <strong>
+                    👨‍🎓 Студенттер
+                </strong>
+
+                <span>
+                    Студенттердин маалыматтарын көрүү
+                </span>
+
+            </a>
+
+
+            <a
+                class="quick-card"
+                href="{{ url_for(
+                    'logout'
+                ) }}"
+            >
+
+                <strong>
+                    🚪 Системадан чыгуу
+                </strong>
+
+                <span>
+                    Мугалим кабинетинен чыгуу
+                </span>
+
+            </a>
+<!-- 📖 Куран жаттоо прогрессин башкаруу -->
+    <div style="background: white; border-radius: 16px; padding: 25px; box-shadow: 0 4px 20px rgba(0,0,0,0.04); margin-bottom: 25px; border: 1px solid #e2e8f0;">
+        
+        <!-- Баш жагы -->
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; margin-bottom: 20px; border-bottom: 2px solid #f1f5f9; padding-bottom: 15px;">
+            <div>
+                <h2 style="margin: 0; color: #0f172a; font-size: 22px;">📖 Куран жаттоо прогрессин башкаруу</h2>
+                <p style="margin: 5px 0 0 0; color: #64748b; font-size: 14px;">Окуучулардын жаттап жаткан жүз, сүрө жана бааларын көзөмөлдөө.</p>
+            </div>
+        </div>
+
+        <!-- Фильтр баскычтары (event параметрлери менен толукталды) -->
+        <div style="display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap;">
+            <button type="button" onclick="filterTeacherQuran(event, 'all')" id="tch-btn-all" style="background: #087653; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 13px;">Бардыгы</button>
+            <button type="button" onclick="filterTeacherQuran(event, 'success')" id="tch-btn-success" style="background: #f1f5f9; color: #475569; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 13px;">✅ Кабыл алынды</button>
+        </div>
+
+        <!-- Заманбап таблица -->
+        <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; min-width: 650px;">
+                <thead>
+                    <tr style="background: #f8fafc; color: #475569; border-bottom: 2px solid #e2e8f0;">
+                        <th style="padding: 12px 15px;">Окуучу</th>
+                        <th style="padding: 12px 15px;">Жүз</th>
+                        <th style="padding: 12px 15px;">Сүрө & Аяттар</th>
+                        <th style="padding: 12px 15px;">Статусу</th>
+                        <th style="padding: 12px 15px;">Баасы</th>
+                        <th style="padding: 12px 15px;">Дата</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in teacher_quran_list %}
+                    <tr class="tch-progress-row" data-status="{{ p.status }}" style="border-bottom: 1px solid #f1f5f9;">
+                        <td style="padding: 12px 15px; font-weight: 600; color: #1e293b;">{{ p.student_name }}</td>
+                        <td style="padding: 12px 15px;">
+                            <span style="background: #eef9f4; color: #073b2b; padding: 4px 10px; border-radius: 20px; font-weight: bold; font-size: 12px;">{{ p.juz_number }}-жүз</span>
+                        </td>
+                        <td style="padding: 12px 15px;">
+                            <strong>{{ p.surah_name }}</strong><br>
+                            <span style="color: #64748b; font-size: 12px;">Аяттар: {{ p.start_ayah }} - {{ p.end_ayah }}</span>
+                        </td>
+                        <td style="padding: 12px 15px;">
+                            {% if p.status == 'Кабыл алынды' or p.status == 'Өтүлдү' %}
+                                <span style="background: #dcfce7; color: #166534; padding: 5px 10px; border-radius: 6px; font-weight: 600; font-size: 12px;">✅ Кабыл алынды</span>
+                            {% else %}
+                                <span style="background: #fef9c3; color: #854d0e; padding: 5px 10px; border-radius: 6px; font-weight: 600; font-size: 12px;">⏳ {{ p.status | default('Текшерилүүдө') }}</span>
+                            {% endif %}
+                        </td>
+                        <td style="padding: 12px 15px;">
+                            <span style="color: #087653; font-weight: bold; font-size: 16px;">{{ p.grade }}</span>
+                        </td>
+                        <td style="padding: 12px 15px; color: #64748b; font-size: 13px;">{{ p.progress_date }}</td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="6" style="text-align: center; color: #94a3b8; padding: 30px; font-style: italic;">Азырынча маалымат киргизиле элек.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+<script>
+    // Барактын башка жакка секирип кетишине жол бербөөчү функция
+    function filterTeacherQuran(event, type) {
+        if (event) {
+            event.preventDefault(); // Баскычтын демейдеги кыймылын токтотот
+        }
+
+        let rows = document.querySelectorAll('.tch-progress-row');
+        let btnAll = document.getElementById('tch-btn-all');
+        let btnSuccess = document.getElementById('tch-btn-success');
+
+        if (!btnAll || !btnSuccess) return;
+
+        // Баскычтардын түстөрүн тазалоо
+        btnAll.style.background = '#f1f5f9';
+        btnAll.style.color = '#475569';
+        btnSuccess.style.background = '#f1f5f9';
+        btnSuccess.style.color = '#475569';
+
+        // Активдүү баскычты боёо
+        if (type === 'all') {
+            btnAll.style.background = '#087653';
+            btnAll.style.color = 'white';
+        } else if (type === 'success') {
+            btnSuccess.style.background = '#087653';
+            btnSuccess.style.color = 'white';
+        }
+
+        // Саптарды көрсөтүү же жашыруу
+        rows.forEach(row => {
+            let status = row.getAttribute('data-status');
+            if (type === 'all') {
+                row.style.display = '';
+            } else if (type === 'success') {
+                if (status === 'Кабыл алынды' || status === 'Өтүлдү') {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            }
+        });
+    }
+</script>
+
+        </div>
+
+
+        {% endif %}
+
+
+    </section>
+
+
+</main>
+
+</div>
+
+</body>
+
+</html>

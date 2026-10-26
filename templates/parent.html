@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="ky">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ата-эне кабинети | КИУ Ош колледжи</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        :root {
+            --primary-color: #073b2b;
+            --secondary-color: #087653;
+            --accent-color: #eef9f4;
+            --text-color: #333;
+            --bg-color: #f4f7f6;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .dashboard {
+            max-width: 1050px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--white);
+            padding: 25px 30px;
+            border-radius: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(7, 59, 43, 0.2);
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .btn-logout {
+            background: rgba(255, 255, 255, 0.2);
+            color: var(--white);
+            padding: 8px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        .btn-logout:hover {
+            background: rgba(255, 255, 255, 0.35);
+        }
+
+        /* Card container */
+        .card {
+            background: var(--white);
+            padding: 25px;
+            border-radius: 14px;
+            margin-top: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+            border: 1px solid #eaeaea;
+        }
+
+        .card h2, .card h3 {
+            color: var(--primary-color);
+            margin-top: 0;
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 10px;
+        }
+
+        /* Student Info Box */
+        .student-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .info-item {
+            background: var(--accent-color);
+            padding: 12px 18px;
+            border-radius: 10px;
+            border-left: 4px solid var(--secondary-color);
+        }
+
+        .info-item span {
+            display: block;
+            font-size: 13px;
+            color: #666;
+        }
+
+        .info-item strong {
+            font-size: 16px;
+            color: var(--primary-color);
+        }
+
+        /* Responsive Tables */
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            margin-top: 15px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 600px;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+        }
+
+        th {
+            background-color: var(--secondary-color);
+            color: var(--white);
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background-color: #fafafa;
+        }
+
+        /* Status badges */
+        .badge {
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: bold;
+            display: inline-block;
+        }
+        .badge-success { background: #d4edda; color: #155724; }
+        .badge-warning { background: #fff3cd; color: #856404; }
+
+        /* Bank Requisites Box */
+        .requisites-container {
+            background: var(--accent-color);
+            border-left: 5px solid var(--primary-color);
+        }
+
+        .bank-box {
+            background: var(--white);
+            padding: 18px;
+            border-radius: 10px;
+            margin-top: 15px;
+            border: 1px solid #d0e8df;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        }
+
+        .bank-box h4 {
+            margin: 0 0 10px 0;
+            color: var(--secondary-color);
+            font-size: 17px;
+        }
+
+        /* Copyable code elements */
+        code {
+            cursor: pointer;
+            background: #f1f5f9;
+            color: #0f172a;
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-family: monospace;
+            border: 1px dashed var(--secondary-color);
+            display: inline-block;
+            transition: all 0.2s ease;
+        }
+
+        code:hover {
+            background: #e0f2fe;
+            border-color: #0284c7;
+            transform: translateY(-1px);
+        }
+    </style>
+</head>
+<body>
+
+<div class="dashboard">
+    <!-- Жогорку башкы тилке -->
+    <div class="header">
+        <h1>👨‍👩‍👧‍👦 Ата-эне кабинети</h1>
+        <a href="{{ url_for('logout') }}" class="btn-logout">Чыгуу</a>
+    </div>
+
+    <!-- Студенттин маалыматы -->
+    <div class="card">
+        <h3>Окуучунун маалыматы</h3>
+        <div class="student-info-grid">
+            <div class="info-item">
+                <span>Аты-жөнү</span>
+                <strong>{{ student.name }}</strong>
+            </div>
+            <div class="info-item">
+                <span>Бөлүмү / Курсу</span>
+                <strong>{{ student.course_name }}</strong>
+            </div>
+        </div>
+    </div>
+
+    <!-- 📖 Куран жаттоо прогресси (Жаңыланган дизайн жана башкаруу баскычтары) -->
+    <div class="card">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 15px;">
+            <h2 style="margin: 0; border: none; padding: 0;">📖 Куран жаттоо прогресси</h2>
+            
+            <!-- Баскычтар (Фильтр же маалымат кошуу баскычтары) -->
+            <div style="display: flex; gap: 10px;">
+                <button onclick="filterProgress('all')" id="btn-all" style="background: var(--secondary-color); color: white; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 13px; transition: 0.2s;">Баары</button>
+                <button onclick="filterProgress('completed')" id="btn-completed" style="background: #e2e8f0; color: #475569; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 13px; transition: 0.2s;">✅ Өтүлгөндөр</button>
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table id="quranTable">
+                <thead>
+                    <tr>
+                        <th>№</th>
+                        <th>Жуз</th>
+                        <th>Сүрө</th>
+                        <th>Аяттар</th>
+                        <th>Статусу</th>
+                        <th>Датасы</th>
+                        <th>Баасы</th>
+                        <th>Эскертүү</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in quran_progress %}
+                    <tr class="progress-row" data-status="{{ p.status }}">
+                        <td><strong>{{ p.lesson_number }}</strong></td>
+                        <td><span style="background: #eef9f4; color: #073b2b; padding: 4px 8px; border-radius: 4px; font-weight: bold;">{{ p.juz_number }}-жүз</span></td>
+                        <td><strong>{{ p.surah_name }}</strong></td>
+                        <td>{{ p.start_ayah }} - {{ p.end_ayah }}</td>
+                        <td>
+                            <span class="badge {% if p.status == 'Өтүлдү' or p.status == 'Кабыл алынды' %}badge-success{% else %}badge-warning{% endif %}">
+                                {{ p.status }}
+                            </span>
+                        </td>
+                        <td>{{ p.progress_date }}</td>
+                        <td><span style="color: #087653; font-weight: bold; font-size: 15px;">{{ p.grade }}</span></td>
+                        <td style="color: #555; font-style: italic;">{{ p.note | default('-') }}</td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="8" style="text-align: center; color: #777; padding: 25px;">Азырынча Куран боюнча маалымат киргизиле элек.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+<script>
+    // Куран прогрессин статус боюнча чыпкалоо (фильтрлөө) баскычтарынын логикасы
+    function filterProgress(type) {
+        let rows = document.querySelectorAll('.progress-row');
+        let btnAll = document.getElementById('btn-all');
+        let btnCompleted = document.getElementById('btn-completed');
+
+        if (type === 'all') {
+            btnAll.style.background = 'var(--secondary-color)';
+            btnAll.style.color = 'white';
+            btnCompleted.style.background = '#e2e8f0';
+            btnCompleted.style.color = '#475569';
+
+            rows.forEach(row => row.style.display = '');
+        } else if (type === 'completed') {
+            btnCompleted.style.background = 'var(--secondary-color)';
+            btnCompleted.style.color = 'white';
+            btnAll.style.background = '#e2e8f0';
+            btnAll.style.color = '#475569';
+
+            rows.forEach(row => {
+                let status = row.getAttribute('data-status');
+                if (status === 'Өтүлдү' || status === 'Кабыл алынды') {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+    }
+</script>
+    </div>
+
+    <!-- 2. Сабактар журналы -->
+    <div class="card">
+        <h2>📚 Сабактар жана катышуу журналы</h2>
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>№</th>
+                        <th>Темасы</th>
+                        <th>Датасы</th>
+                        <th>Статусу</th>
+                        <th>Эскертүү</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for l in lessons %}
+                    <tr>
+                        <td>{{ l.lesson_number }}</td>
+                        <td>{{ l.topic }}</td>
+                        <td>{{ l.lesson_date }}</td>
+                        <td><span class="badge badge-warning">{{ l.status }}</span></td>
+                        <td>{{ l.note }}</td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="5" style="text-align: center; color: #777; padding: 20px;">Сабактар боюнча маалымат жок.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- 3. Төлөмдөр тарыхы -->
+    <div class="card">
+        <h2>💳 Төлөмдөр тарыхы</h2>
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>№</th>
+                        <th>Суммасы</th>
+                        <th>Датасы</th>
+                        <th>Статусу / Эскертүү</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for pay in payments %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td><strong>{{ pay.amount }} сом</strong></td>
+                        <td>{{ pay.payment_date }}</td>
+                        <td><span class="badge badge-success">{{ pay.note | default('Төлөндү') }}</span></td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="4" style="text-align: center; color: #777; padding: 20px;">Төлөм маалыматтары табылган жок.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Төлөм реквизиттери -->
+    <div class="card requisites-container">
+        <h2 style="color: var(--primary-color);">🏛️ Төлөм реквизиттери</h2>
+        <p style="color: #555; margin-bottom: 10px;">
+            Урматтуу ата-энелер! Төлөм жасоо үчүн реквизиттин же БИКтин үстүн **бир басып көчүрүп** алсаңыз болот:
+        </p>
+        
+        <!-- Оптима Банк (КИУ Ош колледжи) -->
+        <div class="bank-box">
+            <h4>🏦 «Оптима Банк» ААК (КИУ Ош колледжи)</h4>
+            <p><strong>Эсеп номери (Р/С):</strong> 
+                <code onclick="copyText('1091420957410429', this)" title="Басып көчүрүп алыңыз">
+                    1091420957410429 📋
+                </code>
+            </p>
+            <p><strong>БИК (BIC):</strong> 
+                <code onclick="copyText('109018', this)" title="Басып көчүрүп алыңыз">
+                    109018 📋
+                </code>
+            </p>
+            <p><strong>ИНН:</strong> 
+                <code onclick="copyText('01109200310204', this)" title="Басып көчүрүп алыңыз">
+                    01109200310204 📋
+                </code>
+            </p>
+        </div>
+
+        <!-- Керемет Банк (Мектеп) -->
+        <div class="bank-box">
+            <h4>🏫 «Керемет Банк» ААК (Мектеп бөлүмү)</h4>
+            <p><strong>Эсеп номери (Р/С):</strong> 
+                <code onclick="copyText('1360240011008794', this)" title="Басып көчүрүп алыңыз">
+                    1360240011008794 📋
+                </code>
+            </p>
+            <p><strong>БИК (BIC):</strong> 
+                <code onclick="copyText('136001', this)" title="Басып көчүрүп алыңыз">
+                    136001 📋
+                </code>
+            </p>
+            <p><strong>ИНН:</strong> 
+                <code onclick="copyText('МЕКТЕПТИК_ИНН', this)" title="Басып көчүрүп алыңыз">
+                    МЕКТЕПТИК_ИНН 📋
+                </code>
+            </p>
+        </div>
+    </div>
+    </div>
+</div>
+
+<!-- Басканда буферге көчүрүүчү JavaScript -->
+<script>
+    function copyText(text, element) {
+        navigator.clipboard.writeText(text).then(function() {
+            let originalText = element.innerHTML;
+            element.innerHTML = "✅ Көчүрүлдү!";
+            element.style.color = "#155724";
+            element.style.background = "#d4edda";
+            
+            setTimeout(function() {
+                element.innerHTML = originalText;
+                element.style.color = "";
+                element.style.background = "";
+            }, 2000);
+        }).catch(function(err) {
+            alert("Көчүрүүдө ката чыкты: " + err);
+        });
+    }
+</script>
+
+</body>
+</html>

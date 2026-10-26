@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="ky">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Студенттер | Куран жаттатуу борбору</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f4f7f6;
+            color: #17372c;
+        }
+
+        .students-page {
+            min-height: 100vh;
+            padding: 28px;
+        }
+
+        /* HEADER */
+        .page-header {
+            background: linear-gradient(135deg, #073b2b, #087653);
+            color: white;
+            border-radius: 20px;
+            padding: 28px 32px;
+            margin-bottom: 22px;
+            box-shadow: 0 10px 30px rgba(7, 59, 43, .15);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .header-left h1 {
+            margin: 0;
+            font-size: 29px;
+        }
+
+        .header-left p {
+            margin: 7px 0 0;
+            color: #c8e5da;
+            font-size: 14px;
+        }
+
+        .header-logo {
+            width: 72px;
+            height: 72px;
+            object-fit: contain;
+            background: white;
+            padding: 7px;
+            border-radius: 15px;
+        }
+
+        /* ACTIONS */
+        .top-actions {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .back-button {
+            color: #087653;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .back-button:hover {
+            text-decoration: underline;
+        }
+
+        /* ADD FORM CARD */
+        .add-card {
+            background: white;
+            border: 1px solid #e1e9e5;
+            border-radius: 18px;
+            padding: 22px;
+            margin-bottom: 20px;
+            box-shadow: 0 7px 24px rgba(18, 63, 47, .05);
+        }
+
+        .add-title {
+            margin: 0 0 15px;
+            font-size: 18px;
+            color: #123c2e;
+        }
+
+        .add-form-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr auto;
+            gap: 12px;
+        }
+
+        .add-form-grid input,
+        .add-form-grid select {
+            width: 100%;
+            height: 46px;
+            padding: 0 14px;
+            border: 1px solid #dce6e1;
+            border-radius: 10px;
+            background: #fbfcfc;
+            color: #253d34;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .add-form-grid input:focus,
+        .add-form-grid select:focus {
+            border-color: #087653;
+            box-shadow: 0 0 0 3px rgba(8, 118, 83, .08);
+            background: white;
+        }
+
+        .add-submit-btn {
+            height: 46px;
+            border: 0;
+            border-radius: 10px;
+            padding: 0 20px;
+            background: #087653;
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .add-submit-btn:hover {
+            background: #065f43;
+        }
+
+        /* FILTER */
+        .filter-card {
+            background: white;
+            border: 1px solid #e1e9e5;
+            border-radius: 18px;
+            padding: 22px;
+            margin-bottom: 20px;
+            box-shadow: 0 7px 24px rgba(18, 63, 47, .05);
+        }
+
+        .filter-title {
+            margin: 0 0 15px;
+            font-size: 18px;
+            color: #123c2e;
+        }
+
+        .filter-form {
+            display: grid;
+            grid-template-columns: 230px 1fr auto;
+            gap: 12px;
+        }
+
+        .filter-form select,
+        .filter-form input {
+            width: 100%;
+            height: 46px;
+            padding: 0 14px;
+            border: 1px solid #dce6e1;
+            border-radius: 10px;
+            background: #fbfcfc;
+            color: #253d34;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .filter-form select:focus,
+        .filter-form input:focus {
+            border-color: #087653;
+            box-shadow: 0 0 0 3px rgba(8, 118, 83, .08);
+            background: white;
+        }
+
+        .search-button {
+            height: 46px;
+            border: 0;
+            border-radius: 10px;
+            padding: 0 20px;
+            background: #edf8f3;
+            color: #087653;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .search-button:hover {
+            background: #087653;
+            color: white;
+        }
+
+        /* STUDENTS */
+        .students-card {
+            background: white;
+            border: 1px solid #e1e9e5;
+            border-radius: 18px;
+            padding: 23px;
+            box-shadow: 0 7px 24px rgba(18, 63, 47, .05);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .section-header h2 {
+            margin: 0;
+            color: #123c2e;
+            font-size: 19px;
+        }
+
+        .student-count {
+            background: #eaf7f1;
+            color: #087653;
+            padding: 7px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        /* TABLE */
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            min-width: 900px;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        th {
+            background: #f0f7f4;
+            color: #356051;
+            padding: 14px 12px;
+            text-align: left;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: .3px;
+            font-weight: 700;
+        }
+
+        th:first-child {
+            border-radius: 10px 0 0 10px;
+        }
+
+        th:last-child {
+            border-radius: 0 10px 10px 0;
+        }
+
+        td {
+            padding: 14px 12px;
+            border-bottom: 1px solid #e8eeeb;
+            font-size: 13px;
+            vertical-align: middle;
+        }
+
+        tbody tr {
+            transition: .2s;
+        }
+
+        tbody tr:hover {
+            background: #f8fbfa;
+        }
+
+        .student-name {
+            color: #087653;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .student-name:hover {
+            text-decoration: underline;
+        }
+
+        .number {
+            color: #8a9690;
+            font-weight: 600;
+        }
+
+        .course-badge {
+            display: inline-block;
+            background: #edf8f3;
+            color: #087653;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .phone {
+            color: #596a62;
+        }
+
+        .edit-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: #2563eb;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .edit-button:hover {
+            background: #1d4ed8;
+            transform: translateY(-1px);
+        }
+
+        /* EMPTY */
+        .empty-state {
+            text-align: center;
+            padding: 55px 20px;
+            color: #7d8983;
+        }
+
+        .empty-icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+        }
+
+        .empty-state h3 {
+            margin: 0 0 7px;
+            color: #365348;
+        }
+
+        .empty-state p {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        /* MOBILE */
+        @media (max-width: 850px) {
+            .students-page {
+                padding: 15px;
+            }
+
+            .filter-form,
+            .add-form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .search-button,
+            .add-submit-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="students-page">
+
+    <!-- HEADER -->
+    <header class="page-header">
+        <div class="header-content">
+            <div class="header-left">
+                <h1>👨‍🎓 Студенттер</h1>
+                <p>Кыргызстан Ислам Университети</p>
+                <p>Ош колледжи — Куран жаттатуу борбору</p>
+            </div>
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Логотип" class="header-logo">
+        </div>
+    </header>
+
+    <!-- ACTIONS -->
+    <div class="top-actions">
+        <a href="/admin" class="back-button">← Админ панелге кайтуу</a>
+    </div>
+
+    <!-- ADD STUDENT FORM CARD -->
+    <section class="add-card">
+        <h2 class="add-title">➕ Жаңы студент кошуу</h2>
+        <form action="/add_student" method="POST" class="add-form-grid">
+            <input type="text" name="fullname" id="fullname" placeholder="Студенттин аты-жөнүн жазыңыз" required>
+            <select name="course_id" id="course_id" required>
+                <option value="" disabled selected>Группаны тандаңыз...</option>
+                {% for course in courses %}
+                    <option value="{{ course.id or course['id'] }}">{{ course.name or course['name'] }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="add-submit-btn">➕ Кошуу</button>
+        </form>
+    </section>
+
+    <!-- FILTER -->
+    <section class="filter-card">
+        <h2 class="filter-title">🔎 Студент издөө</h2>
+        <form method="GET" action="/students" class="filter-form">
+            <select name="course_id">
+                <option value="">Бардык курстар</option>
+                {% for course in courses %}
+                <option value="{{ course['id'] }}" {% if selected_course == course['id'] %} selected {% endif %}>
+                    {{ course['name'] }}
+                </option>
+                {% endfor %}
+            </select>
+
+            <input type="text" name="search" placeholder="🔍 Студенттин аты-жөнүн жазыңыз" value="{{ search or '' }}">
+            <button type="submit" class="search-button">🔍 Издөө</button>
+        </form>
+    </section>
+
+    <!-- STUDENTS LIST -->
+    <section class="students-card">
+        <div class="section-header">
+            <h2>📋 Студенттердин тизмеси</h2>
+            {% if students %}
+            <div class="student-count">{{ students|length }} студент</div>
+            {% endif %}
+        </div>
+
+        {% if students %}
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>№</th>
+                        <th>Аты-жөнү</th>
+                        <th>Туулган жылы</th>
+                        <th>Курсу</th>
+                        <th>Ата-энеси</th>
+                        <th>Телефон</th>
+                        <th>Аракет</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for student in students %}
+                <tr>
+                    <td class="number">{{ loop.index }}</td>
+                    <td>
+                        <a href="/student/{{ student['id'] }}" class="student-name">
+                            👤 {{ student["name"] or student["fullname"] }}
+                        </a>
+                    </td>
+                    <td>{{ student["birth_year"] or "—" }}</td>
+                    <td>
+                        <span class="course-badge">
+                            🎓 {{ student["course_name"] }}
+                        </span>
+                    </td>
+                    <td>{{ student["parent_name"] or "—" }}</td>
+                    <td class="phone">{{ student["phone"] or "—" }}</td>
+                    <td>
+                        <a href="{{ url_for('edit_student', student_id=student['id']) }}" class="edit-button">✏️ Оңдоо</a>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <div class="empty-icon">👨‍🎓</div>
+            <h3>Студенттер табылган жок</h3>
+            <p>Азырынча студенттер кошула элек же издөө боюнча маалымат жок.</p>
+        </div>
+        {% endif %}
+    </section>
+
+</div>
+
+</body>
+</html>

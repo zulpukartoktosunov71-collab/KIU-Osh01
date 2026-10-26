@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ky">
+<head>
+    <meta charset="UTF-8">
+    <title>Курандын бөлүктөрү (Жүздөр)</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f8fafc; font-family: sans-serif; }
+        .container { max-width: 900px; margin-top: 40px; }
+        .card { border-radius: 16px; border: 1px solid #e5e7eb; padding: 25px; background: white; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        h1 { color: #166534; font-size: 24px; margin-bottom: 20px; }
+        .table th { background: #166534; color: white; }
+        .back-btn { display: inline-block; margin-top: 20px; padding: 10px 16px; background: #166534; color: white; text-decoration: none; border-radius: 8px; }
+        .back-btn:hover { background: #14532d; color: white; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>📖 Курандын 30 жүзүнүн тизмеси</h1>
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>№</th>
+                            <th>Бөлүк (Жүз)</th>
+                            <th>Башталышы</th>
+                            <th>Аягы</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for section in sections %}
+                        <tr>
+                            <td><strong>{{ section.juz_number }}</strong></td>
+                            <td>{{ section.section_name }}</td>
+                            <td>{{ section.start_reference }}</td>
+                            <td>{{ section.end_reference }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <a href="javascript:history.back()" class="back-btn">← Артка кайтуу</a>
+        </div>
+    </div>
+</body>
+</html>

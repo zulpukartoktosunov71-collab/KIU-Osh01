@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ky">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сабак дайындоо | Куран жаттатуу борбору</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        * { box-sizing: border-box; }
+        body { margin: 0; font-family: Arial, sans-serif; background: #f4f7f6; color: #1f2937; }
+        .page-layout { display: flex; min-height: 100vh; }
+        .sidebar { width: 270px; background: #073b2b; color: white; padding: 25px 18px; position: fixed; left: 0; top: 0; bottom: 0; }
+        .menu-link { display: block; color: white; text-decoration: none; padding: 13px 15px; margin: 6px 0; border-radius: 12px; }
+        .menu-link:hover, .menu-link.active { background: rgba(255,255,255,0.15); font-weight: bold; }
+        .logout { background: #8b1e1e; margin-top: 25px; }
+        .main { margin-left: 270px; width: calc(100% - 270px); padding: 30px; }
+        .form-card { max-width: 800px; background: white; border: 1px solid #e5e7eb; border-radius: 18px; padding: 30px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: bold; }
+        .form-group select { width: 100%; padding: 13px; border: 1px solid #d1d5db; border-radius: 10px; outline: none; background: white; }
+        .btn { border: none; background: #0f5132; color: white; padding: 13px 20px; border-radius: 10px; font-weight: bold; cursor: pointer; }
+    </style>
+</head>
+<body>
+<div class="page-layout">
+    <aside class="sidebar">
+        <h2>Башкаруу системасы</h2>
+        <a href="{{ url_for('admin') }}" class="menu-link">🏠 Башкы бет</a>
+        <a href="{{ url_for('assign_teacher') }}" class="menu-link active">📚 Сабак дайындоо</a>
+        <a href="{{ url_for('assigned_lessons') }}" class="menu-link">📋 Дайындалган тизме</a>
+        <a href="{{ url_for('logout') }}" class="menu-link logout">🚪 Чыгуу</a>
+    </aside>
+
+    <main class="main">
+        <section class="form-card">
+            <h2>📚 Мугалимге сабак дайындоо</h2>
+            <form method="POST">
+                <div class="form-group">
+                    <label>👨‍🏫 Мугалим</label>
+                    <select name="teacher_id" required>
+                        <option value="">-- Мугалимди тандаңыз --</option>
+                        {% for teacher in teachers %}
+                            <option value="{{ teacher['id'] }}" {% if assignment and teacher['id'] == assignment['teacher_id'] %}selected{% endif %}>{{ teacher['name'] }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>🎓 Курс</label>
+                    <select name="course_id" required>
+                        <option value="">-- Курсту тандаңыз --</option>
+                        {% for course in courses %}
+                            <option value="{{ course['id'] }}" {% if assignment and course['id'] == assignment['course_id'] %}selected{% endif %}>{{ course['name'] }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>📖 Сабак</label>
+                    <select name="subject_id" required>
+                        <option value="">-- Сабакты тандаңыз --</option>
+                        {% for subject in subjects %}
+                            <option value="{{ subject['id'] }}" {% if assignment and subject['id'] == assignment['subject_id'] %}selected{% endif %}>{{ subject['name'] }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="btn">✅ Сактоо</button>
+            </form>
+        </section>
+    </main>
+</div>
+</body>
+</html>

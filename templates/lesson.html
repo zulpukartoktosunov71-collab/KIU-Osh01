@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+
+<html lang="ky">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Сабак журналы</title>
+
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}">
+
+<style>
+
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        font-family: "Segoe UI", Arial, sans-serif;
+        background: #f4f7f6;
+        color: #17372c;
+    }
+
+    .page {
+        max-width: 1250px;
+        margin: auto;
+        padding: 25px;
+    }
+
+    /* HEADER */
+
+    .header {
+        background: linear-gradient(135deg, #073b2b, #087653);
+        color: white;
+        padding: 28px;
+        border-radius: 20px;
+        margin-bottom: 20px;
+    }
+
+    .header-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+    }
+
+    .header h1 {
+        margin: 0 0 8px;
+        font-size: 28px;
+    }
+
+    .header h2 {
+        margin: 0 0 5px;
+        font-size: 19px;
+        color: #d7eee6;
+    }
+
+    .header p {
+        margin: 0;
+        color: #b8ddd0;
+    }
+
+    .logo {
+        width: 70px;
+        height: 70px;
+        object-fit: contain;
+        background: white;
+        padding: 6px;
+        border-radius: 14px;
+    }
+
+    /* SECTIONS */
+
+    .section {
+        background: white;
+        border: 1px solid #e1e9e5;
+        border-radius: 18px;
+        padding: 24px;
+        margin-bottom: 20px;
+    }
+
+    .section h2 {
+        margin: 0 0 18px;
+        color: #123c2e;
+        font-size: 20px;
+    }
+
+    /* SEMESTER */
+
+    .semester-form {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+
+    label {
+        display: block;
+        margin: 14px 0 7px;
+        color: #355b4e;
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+    .semester-form label {
+        margin: 0;
+    }
+
+    select,
+    input,
+    textarea {
+        width: 100%;
+        padding: 11px 13px;
+        border: 1px solid #d6e2dd;
+        border-radius: 9px;
+        background: white;
+        color: #17372c;
+        font-family: inherit;
+        font-size: 14px;
+        outline: none;
+    }
+
+    select:focus,
+    input:focus,
+    textarea:focus {
+        border-color: #087653;
+    }
+
+    .semester-form select {
+        width: auto;
+        min-width: 180px;
+    }
+
+    /* QURAN GOAL */
+
+    .quran-goal {
+        background: #edf8f3;
+        border: 1px solid #cde8dc;
+        border-radius: 14px;
+        padding: 18px 20px;
+    }
+
+    .quran-goal h3 {
+        margin: 0 0 8px;
+        color: #087653;
+    }
+
+    .quran-goal p {
+        margin: 0;
+        color: #4b6259;
+    }
+
+    .quran-goal strong {
+        color: #075e46;
+    }
+
+    /* PROGRESS */
+
+    .progress-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+    }
+
+    .progress-card {
+        background: #f8faf9;
+        border: 1px solid #e1e9e5;
+        border-radius: 13px;
+        padding: 18px;
+    }
+
+    .progress-card span {
+        display: block;
+        color: #77867f;
+        font-size: 12px;
+        margin-bottom: 7px;
+    }
+
+    .progress-card strong {
+        font-size: 23px;
+        color: #087653;
+    }
+
+    .progress-bar {
+        height: 14px;
+        background: #e5ece9;
+        border-radius: 20px;
+        overflow: hidden;
+        margin-top: 18px;
+    }
+
+    .progress-fill {
+        height: 100%;
+        background: #087653;
+        border-radius: 20px;
+    }
+
+    /* FORM */
+
+    .lesson-form {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: 18px;
+    }
+
+    .form-full {
+        grid-column: 1 / -1;
+    }
+
+    .submit-button {
+        margin-top: 18px;
+        padding: 13px 20px;
+        border: none;
+        border-radius: 10px;
+        background: #087653;
+        color: white;
+        font-size: 14px;
+        font-weight: 700;
+        cursor: pointer;
+    }
+
+    .submit-button:hover {
+        background: #065e43;
+    }
+
+    /* TABLE */
+
+    .table-wrapper {
+        overflow-x: auto;
+    }
+
+    table {
+        width: 100%;
+        min-width: 800px;
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+
+    th {
+        background: #edf7f3;
+        color: #356051;
+        padding: 13px 12px;
+        text-align: left;
+        font-size: 12px;
+    }
+
+    td {
+        padding: 13px 12px;
+        border-bottom: 1px solid #e8eeeb;
+        font-size: 13px;
+    }
+
+    tbody tr:hover {
+        background: #f8fbfa;
+    }
+
+    .status-done {
+        color: #15803d;
+        font-weight: 700;
+    }
+
+    .status-partial {
+        color: #b7791f;
+        font-weight: 700;
+    }
+
+    .status-cancelled {
+        color: #dc2626;
+        font-weight: 700;
+    }
+
+    .empty {
+        padding: 30px;
+        text-align: center;
+        color: #7a8982;
+        background: #f8faf9;
+        border-radius: 12px;
+    }
+
+    /* BACK */
+
+    .back-button {
+        display: inline-flex;
+        padding: 11px 17px;
+        border-radius: 9px;
+        text-decoration: none;
+        background: #edf8f3;
+        color: #087653;
+        font-weight: 700;
+        font-size: 14px;
+    }
+
+    .back-button:hover {
+        background: #dff2e9;
+    }
+
+    /* MOBILE */
+
+    @media (max-width: 800px) {
+
+        .page {
+            padding: 15px;
+        }
+
+        .header {
+            padding: 22px;
+        }
+
+        .header h1 {
+            font-size: 23px;
+        }
+
+        .logo {
+            width: 55px;
+            height: 55px;
+        }
+
+        .progress-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .lesson-form {
+            grid-template-columns: 1fr;
+        }
+
+        .form-full {
+            grid-column: auto;
+        }
+
+    }
+
+    @media (max-width: 500px) {
+
+        .header-top {
+            align-items: flex-start;
+        }
+
+        .section {
+            padding: 18px;
+        }
+
+        .semester-form {
+            display: block;
+        }
+
+        .semester-form select {
+            width: 100%;
+            margin-top: 8px;
+        }
+
+    }
+
+</style>
+
+</head>
+
+<body>
+
+<div class="page">
+
+<!-- HEADER -->
+
+<header class="header">
+
+    <div class="header-top">
+
+        <div>
+
+            <h1>
+                📚 Сабак журналы
+            </h1>
+
+            <h2>
+                {{ assignment["subject_name"] }}
+            </h2>
+
+            <p>
+                🎓 {{ assignment["course_name"] }}
+            </p>
+
+        </div>
+
+
+        <img
+            src="{{ url_for('static', filename='images/logo.png') }}"
+            alt="Логотип"
+            class="logo"
+        >
+
+    </div>
+
+</header>
+
+
+<!-- SEMESTER -->
+
+<section class="section">
+
+    <h2>
+        🎓 Семестр тандоо
+    </h2>
+
+    <form
+        method="GET"
+        action="{{ url_for('lesson_page', assignment_id=assignment['id']) }}"
+        class="semester-form"
+    >
+
+        <label>
+            Семестр:
+        </label>
+
+        <select
+            name="semester"
+            onchange="this.form.submit()"
+        >
+
+            {% for semester in range(1, 7) %}
+
+                <option
+                    value="{{ semester }}"
+                    {% if selected_semester == semester %}
+                        selected
+                    {% endif %}
+                >
+                    {{ semester }}-семестр
+                </option>
+
+            {% endfor %}
+
+        </select>
+
+    </form>
+
+</section>
+
+
+<!-- QURAN GOAL -->
+
+{% if assignment["subject_name"] == "Куран жаттоо" %}
+
+<section class="section">
+
+    <h2>
+        📖 Куран боюнча максат
+    </h2>
+
+
+    <div class="quran-goal">
+
+        {% if selected_semester == 1 %}
+
+            <h3>1-семестр</h3>
+
+            <p>
+                🎯 Максат:
+                <strong>3 жүз Куран жаттоо</strong>
+            </p>
+
+        {% elif selected_semester == 2 %}
+
+            <h3>2-семестр</h3>
+
+            <p>
+                🎯 Максат:
+                <strong>8 жүз Куран жаттоо</strong>
+            </p>
+
+        {% elif selected_semester == 3 %}
+
+            <h3>3-семестр</h3>
+
+            <p>
+                🎯 Максат:
+                <strong>13 жүз Куран жаттоо</strong>
+            </p>
+
+        {% elif selected_semester == 4 %}
+
+            <h3>4-семестр</h3>
+
+            <p>
+                🎯 Максат:
+                <strong>21 жүз Куран жаттоо</strong>
+            </p>
+
+        {% elif selected_semester == 5 %}
+
+            <h3>5-семестр</h3>
+
+            <p>
+                🎯 Максат:
+                <strong>Куранды толук жаттап бүтүрүү</strong>
+            </p>
+
+        {% elif selected_semester == 6 %}
+
+            <h3>6-семестр</h3>
+
+            <p>
+                🎯 Максат:
+                <strong>Куранды толук кайталоо</strong>
+            </p>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+{% endif %}
+
+
+<!-- PROGRESS -->
+
+<section class="section">
+
+    <h2>
+        📊 {{ selected_semester }}-семестрдин жүрүшү
+    </h2>
+
+
+    {% set completed = namespace(count=0) %}
+
+    {% for lesson in lessons %}
+
+        {% if lesson["status"] == "Өтүлдү" %}
+
+            {% set completed.count =
+                completed.count + 1 %}
+
+        {% endif %}
+
+    {% endfor %}
+
+
+    {% if assignment["subject_name"] == "Куран жаттоо" %}
+
+        <div class="progress-grid">
+
+            <div class="progress-card">
+
+                <span>
+                    📖 Катталган Куран сабактары
+                </span>
+
+                <strong>
+                    {{ lessons|length }}
+                </strong>
+
+            </div>
+
+
+            <div class="progress-card">
+
+                <span>
+                    ✅ Өтүлгөн Куран сабактары
+                </span>
+
+                <strong>
+                    {{ completed.count }}
+                </strong>
+
+            </div>
+
+
+            <div class="progress-card">
+
+                <span>
+                    🎓 Семестр
+                </span>
+
+                <strong>
+                    {{ selected_semester }}
+                </strong>
+
+            </div>
+
+        </div>
+
+    {% else %}
+
+        <div class="progress-grid">
+
+            <div class="progress-card">
+
+                <span>
+                    ✅ Өтүлгөн сабак
+                </span>
+
+                <strong>
+                    {{ completed.count }} / 16
+                </strong>
+
+            </div>
+
+
+            <div class="progress-card">
+
+                <span>
+                    ⏳ Калган сабак
+                </span>
+
+                <strong>
+                    {{ 16 - completed.count }}
+                </strong>
+
+            </div>
+
+
+            <div class="progress-card">
+
+                <span>
+                    📈 Прогресс
+                </span>
+
+                <strong>
+                    {{ ([completed.count / 16 * 100, 100]|min)|round }}%
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="progress-bar">
+
+            <div
+                class="progress-fill"
+                style="width: {{ ([completed.count / 16 * 100, 100]|min)|round }}%;"
+            ></div>
+
+        </div>
+
+    {% endif %}
+
+</section>
+
+
+<!-- ADD LESSON -->
+
+<section class="section">
+
+    <h2>
+        ➕ Сабак кошуу
+    </h2>
+
+
+    <form
+        action="{{ url_for('add_lesson', assignment_id=assignment['id']) }}"
+        method="POST"
+        class="lesson-form"
+    >
+
+
+        <div>
+
+            <label>
+                🎓 Семестр
+            </label>
+
+            <select name="semester" required>
+
+                {% for semester in range(1, 7) %}
+
+                    <option
+                        value="{{ semester }}"
+                        {% if selected_semester == semester %}
+                            selected
+                        {% endif %}
+                    >
+                        {{ semester }}-семестр
+                    </option>
+
+                {% endfor %}
+
+            </select>
+
+        </div>
+
+
+        <div>
+
+            <label>
+                📖 Сабактын номери
+            </label>
+
+
+            {% if assignment["subject_name"] == "Куран жаттоо" %}
+
+                <input
+                    type="number"
+                    name="lesson_number"
+                    min="1"
+                    value="{{ (lessons|length) + 1 }}"
+                    required
+                    placeholder="Мисалы: 17"
+                >
+
+            {% else %}
+
+                <select
+                    name="lesson_number"
+                    required
+                >
+
+                    {% for number in range(1, 17) %}
+
+                        <option value="{{ number }}">
+                            {{ number }}-сабак
+                        </option>
+
+                    {% endfor %}
+
+                </select>
+
+            {% endif %}
+
+        </div>
+
+
+        <div class="form-full">
+
+            <label>
+                📝 Сабактын темасы
+            </label>
+
+            <input
+                type="text"
+                name="topic"
+                placeholder="Мисалы: Тахараттын мааниси"
+                required
+            >
+
+        </div>
+
+
+        <div>
+
+            <label>
+                📅 Дата
+            </label>
+
+            <input
+                type="date"
+                name="lesson_date"
+                required
+            >
+
+        </div>
+
+
+        <div>
+
+            <label>
+                📌 Сабактын абалы
+            </label>
+
+            <select name="status" required>
+
+                <option value="Өтүлдү">
+                    ✅ Өтүлдү
+                </option>
+
+                <option value="Бүтпөй калды">
+                    🟡 Бүтпөй калды
+                </option>
+
+                <option value="Өтүлбөй калды">
+                    ❌ Өтүлбөй калды
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="form-full">
+
+            <label>
+                📝 Эскертүү
+            </label>
+
+            <textarea
+                name="note"
+                rows="4"
+                placeholder="Кошумча маалымат..."
+            ></textarea>
+
+        </div>
+
+
+        <div class="form-full">
+
+            <button
+                type="submit"
+                class="submit-button"
+            >
+                💾 Сабакты сактоо
+            </button>
+
+        </div>
+
+
+    </form>
+
+</section>
+
+
+<!-- JOURNAL -->
+
+<section class="section">
+
+    <h2>
+
+        {% if assignment["subject_name"] == "Куран жаттоо" %}
+
+            📖 {{ selected_semester }}-семестр —
+            Куран жаттоо журналы
+
+        {% else %}
+
+            📋 {{ selected_semester }}-семестр —
+            16 сабактык журнал
+
+        {% endif %}
+
+    </h2>
+
+
+    {% if lessons %}
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>№</th>
+                    <th>Тема</th>
+                    <th>Дата</th>
+                    <th>Абалы</th>
+                    <th>Эскертүү</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+            {% for lesson in lessons %}
+
+                <tr>
+
+                    <td>
+
+                        <strong>
+                            {{ lesson["lesson_number"] }}
+                        </strong>
+
+                    </td>
+
+
+                    <td>
+                        {{ lesson["topic"] }}
+                    </td>
+
+
+                    <td>
+                        {{ lesson["lesson_date"] }}
+                    </td>
+
+
+                    <td>
+
+                        {% if lesson["status"] == "Өтүлдү" %}
+
+                            <span class="status-done">
+                                ✅ Өтүлдү
+                            </span>
+
+                        {% elif lesson["status"] == "Бүтпөй калды" %}
+
+                            <span class="status-partial">
+                                🟡 Бүтпөй калды
+                            </span>
+
+                        {% else %}
+
+                            <span class="status-cancelled">
+                                ❌ Өтүлбөй калды
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <td>
+                        {{ lesson["note"] or "—" }}
+                    </td>
+
+                </tr>
+
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    {% else %}
+
+    <div class="empty">
+
+        📭 Бул семестрде азырынча сабак кошула элек.
+
+    </div>
+
+    {% endif %}
+
+</section>
+
+
+<!-- BACK -->
+
+<section class="section">
+
+    <a
+        href="{{ url_for('teacher') }}"
+        class="back-button"
+    >
+        ← Мугалимдин кабинетине кайтуу
+    </a>
+
+</section>
+
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ky">
+<head>
+    <meta charset="UTF-8">
+    <title>114 Сүрө Тизмеси</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <div class="container mt-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>📖 Курандын 114 Сүрөсү</h2>
+            <a href="{{ url_for('admin') }}" class="btn btn-secondary">Артка кайтуу</a>
+        </div>
+        
+        <table class="table table-bordered table-striped shadow-sm bg-white">
+            <thead class="table-dark">
+                <tr>
+                    <th>№</th>
+                    <th>Сүрөнүн аты</th>
+                    <th>Арабча аты</th>
+                    <th>Англисче аталышы</th>
+                    <th>Аяттар саны</th>
+                    <th>Түшкөн жери</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for surah in surahs %}
+                <tr>
+                    <td>{{ surah.id }}</td>
+                    <td><strong>{{ surah.name }}</strong></td>
+                    <td><span style="font-size: 1.3rem; font-family: serif; direction: rtl; display: inline-block;">{{ surah.arabic_name }}</span></td>
+                    <td>{{ surah.english_name }}</td>
+                    <td>{{ surah.verses_count }}</td>
+                    <td>
+                        <span class="badge {% if surah.revelation_type == 'Мекке' %}bg-primary{% else %}bg-success{% endif %}">
+                            {{ surah.revelation_type }}
+                        </span>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>

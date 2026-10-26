@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+
+<html lang="ky"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Ата-энелер | Куран жаттатуу борбору</title>
+
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}">
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        font-family: "Segoe UI", Arial, sans-serif;
+        background: linear-gradient(180deg, #eef8f3 0%, #f8fbfa 100%);
+        color: #1f2937;
+    }
+
+    .parents-layout {
+        display: flex;
+        min-height: 100vh;
+    }
+
+    /* SIDEBAR */
+    .parents-sidebar {
+        width: 270px;
+        background: linear-gradient(180deg, #073b2b, #0a5940 60%, #0a6b4f);
+        color: white;
+        padding: 25px 18px;
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        overflow-y: auto;
+        box-shadow: 8px 0 26px rgba(7, 59, 43, 0.12);
+    }
+
+    .brand {
+        text-align: center;
+        padding-bottom: 25px;
+        border-bottom: 1px solid rgba(255,255,255,0.18);
+        margin-bottom: 20px;
+    }
+
+    .brand-logo {
+        width: 95px;
+        height: 95px;
+        object-fit: contain;
+        display: block;
+        margin: 0 auto 15px;
+        background: rgba(255,255,255,0.12);
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 18px;
+        padding: 8px;
+    }
+
+    .brand h2 {
+        font-size: 17px;
+        line-height: 1.5;
+        margin: 0;
+    }
+
+    .brand p {
+        font-size: 13px;
+        opacity: 0.8;
+        margin-top: 10px;
+    }
+
+    .sidebar-title {
+        font-size: 12px;
+        opacity: 0.7;
+        margin: 22px 10px 8px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+    }
+
+    .sidebar-link {
+        display: block;
+        color: white;
+        text-decoration: none;
+        padding: 13px 15px;
+        margin: 6px 0;
+        border-radius: 12px;
+        transition: 0.2s ease;
+        border: 1px solid transparent;
+    }
+
+    .sidebar-link:hover {
+        background: rgba(255,255,255,0.12);
+        transform: translateX(3px);
+        border-color: rgba(255,255,255,0.08);
+    }
+
+    .sidebar-link.active {
+        background: rgba(255,255,255,0.95);
+        color: #0f5132;
+        font-weight: bold;
+    }
+
+    .logout {
+        margin-top: 25px;
+        background: rgba(139, 30, 30, 0.15);
+    }
+
+    .logout:hover {
+        background: #a92525;
+    }
+
+    /* MAIN */
+    .parents-main {
+        margin-left: 270px;
+        width: calc(100% - 270px);
+        padding: 30px;
+    }
+
+    .top-header {
+        background: linear-gradient(135deg, #ffffff 0%, #f3faf6 100%);
+        border-radius: 18px;
+        padding: 25px 30px;
+        margin-bottom: 25px;
+        border: 1px solid #e5e7eb;
+        box-shadow: 0 12px 24px rgba(15, 81, 50, 0.04);
+    }
+
+    .top-header h1 {
+        margin: 0;
+        color: #0f5132;
+        font-size: 28px;
+    }
+
+    .top-header p {
+        margin: 8px 0 0;
+        color: #6b7280;
+    }
+
+    /* STATS */
+    .stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px;
+        margin-bottom: 25px;
+    }
+
+    .stat-card {
+        background: linear-gradient(180deg, #ffffff 0%, #f9fbfa 100%);
+        border-radius: 16px;
+        padding: 22px;
+        border: 1px solid #e5e7eb;
+        box-shadow: 0 10px 22px rgba(17,60,45,0.04);
+    }
+
+    .stat-icon {
+        font-size: 28px;
+        margin-bottom: 10px;
+    }
+
+    .stat-title {
+        color: #6b7280;
+        font-size: 14px;
+    }
+
+    .stat-number {
+        font-size: 30px;
+        font-weight: bold;
+        color: #0f5132;
+        margin-top: 5px;
+    }
+
+    /* CONTENT */
+    .content-card {
+        background: rgba(255,255,255,0.98);
+        border-radius: 18px;
+        padding: 25px;
+        border: 1px solid #e5e7eb;
+        box-shadow: 0 12px 28px rgba(17, 60, 45, 0.04);
+    }
+
+    .content-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+    }
+
+    .content-header h2 {
+        margin: 0;
+        color: #0f5132;
+        font-size: 21px;
+    }
+
+    .add-button {
+        display: inline-block;
+        background: linear-gradient(135deg, #087653, #0d8d67);
+        color: white;
+        text-decoration: none;
+        padding: 11px 17px;
+        border-radius: 10px;
+        font-weight: bold;
+        transition: 0.2s ease;
+        box-shadow: 0 10px 18px rgba(8, 118, 83, 0.18);
+    }
+
+    .add-button:hover {
+        background: linear-gradient(135deg, #065e43, #087653);
+        transform: translateY(-1px);
+    }
+
+    /* TABLE */
+    .table-wrapper {
+        overflow-x: auto;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 750px;
+    }
+
+    th {
+        background: linear-gradient(135deg, #0a5a43, #0d734f);
+        color: white;
+        text-align: left;
+        padding: 14px;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        border-bottom: 2px solid #dcebe3;
+    }
+
+    td {
+        padding: 15px 14px;
+        border-bottom: 1px solid #edf0ee;
+        vertical-align: middle;
+    }
+
+    tbody tr:hover {
+        background: #f5faf7;
+    }
+
+    .number {
+        color: #6b7280;
+        font-weight: bold;
+    }
+
+    .parent-name {
+        font-weight: bold;
+        color: #1f2937;
+    }
+
+    .username {
+        background: #f3f4f6;
+        padding: 6px 9px;
+        border-radius: 7px;
+        font-size: 13px;
+        color: #374151;
+        display: inline-block;
+    }
+
+    .student {
+        color: #0f5132;
+        font-weight: 600;
+    }
+
+    .actions {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 7px 10px;
+        border-radius: 8px;
+        color: white;
+        font-size: 12px;
+        font-weight: 700;
+        text-decoration: none;
+        transition: 0.2s ease;
+    }
+
+    .btn-edit { background: #2563eb; }
+    .btn-delete { background: #dc3545; }
+    .btn:hover { filter: brightness(1.04); transform: translateY(-1px); }
+
+    .edit-button,
+    .delete-button {
+        display: inline-block;
+        padding: 8px 11px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: bold;
+    }
+
+    .edit-button {
+        background: #e8f3ed;
+        color: #0f5132;
+    }
+
+    .edit-button:hover {
+        background: #d6eadf;
+    }
+
+    .delete-button {
+        background: #fdecec;
+        color: #a11d1d;
+    }
+
+    .delete-button:hover {
+        background: #fbd7d7;
+    }
+
+    .empty {
+        text-align: center;
+        padding: 45px 20px;
+        color: #6b7280;
+    }
+
+    .empty-icon {
+        font-size: 45px;
+        margin-bottom: 10px;
+    }
+
+    .back-link {
+        display: inline-block;
+        margin-top: 20px;
+        color: #0f5132;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .back-link:hover {
+        text-decoration: underline;
+    }
+
+    /* MOBILE */
+    @media (max-width: 900px) {
+        .parents-sidebar {
+            width: 220px;
+        }
+
+        .parents-main {
+            margin-left: 220px;
+            width: calc(100% - 220px);
+            padding: 20px;
+        }
+
+        .stats {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @media (max-width: 650px) {
+        .parents-layout {
+            display: block;
+        }
+
+        .parents-sidebar {
+            position: relative;
+            width: 100%;
+            min-height: auto;
+        }
+
+        .parents-main {
+            margin-left: 0;
+            width: 100%;
+            padding: 15px;
+        }
+
+        .top-header h1 {
+            font-size: 23px;
+        }
+
+        .content-card {
+            padding: 15px;
+        }
+    }
+</style>
+
+</head>
+
+<body>
+
+<div class="parents-layout">
+
+<!-- SIDEBAR -->
+<aside class="parents-sidebar">
+
+    <div class="brand">
+
+        <img src="{{ url_for('static', filename='images/logo.png') }}"
+             alt="Логотип"
+             class="brand-logo">
+
+        <h2>
+            Кыргызстан Ислам Университети<br>
+            Ош колледжи<br>
+            Куран жаттатуу борбору
+        </h2>
+
+        <p>Башкаруу системасы</p>
+
+    </div>
+
+    <div class="sidebar-title">
+        Башкы меню
+    </div>
+
+    <a href="/admin" class="sidebar-link">
+        🏠 Башкы бет
+    </a>
+
+    <a href="/students" class="sidebar-link">
+        👨‍🎓 Студенттер
+    </a>
+
+    <a href="/parents" class="sidebar-link active">
+        👨‍👩‍👦 Ата-энелер
+    </a>
+
+    <div class="sidebar-title">
+        Башкаруу
+    </div>
+
+    <a href="/add-teacher" class="sidebar-link">
+        👨‍🏫 Мугалим кошуу
+    </a>
+
+    <a href="/assign-teacher" class="sidebar-link">
+        📚 Сабак дайындоо
+    </a>
+
+    <a href="/quran-sections" class="sidebar-link">
+        📖 Куран бөлүмдөрү
+    </a>
+
+    <a href="/logout" class="sidebar-link logout">
+        🚪 Чыгуу
+    </a>
+
+</aside>
+
+
+<!-- MAIN -->
+<main class="parents-main">
+
+    <header class="top-header">
+
+        <h1>
+            👨‍👩‍👦 Ата-энелер
+        </h1>
+
+        <p>
+            Катталган ата-энелерди башкаруу бөлүмү
+        </p>
+
+    </header>
+
+
+    <!-- STATS -->
+    <section class="stats">
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                👨‍👩‍👦
+            </div>
+
+            <div class="stat-title">
+                Жалпы ата-энелер
+            </div>
+
+            <div class="stat-number">
+                {{ parents|length }}
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                👨‍🎓
+            </div>
+
+            <div class="stat-title">
+                Байланган студенттер
+            </div>
+
+            <div class="stat-number">
+                {{ parents|length }}
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                🔐
+            </div>
+
+            <div class="stat-title">
+                Кирүү аккаунттары
+            </div>
+
+            <div class="stat-number">
+                {{ parents|length }}
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- TABLE -->
+    <section class="content-card">
+
+        <div class="content-header">
+
+            <h2>
+                📋 Ата-энелердин тизмеси
+            </h2>
+
+            <a href="/add-parent" class="add-button">
+                ➕ Жаңы ата-эне кошуу
+            </a>
+
+        </div>
+
+
+        {% if parents %}
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>№</th>
+                        <th>Ата-эненин аты-жөнү</th>
+                        <th>Логин</th>
+                        <th>Студенти</th>
+                        <th>Башкаруу</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% for parent in parents %}
+
+                    <tr>
+
+                        <td class="number">
+                            {{ loop.index }}
+                        </td>
+
+                       <td>{{ parent['name'] }}</td>
+
+                        <td>
+                            <span class="username">
+                                🔑 {{ parent["username"] }}
+                            </span>
+                        </td>
+
+                        <td class="student">
+                            👨‍🎓 {{ parent["student_name"] }}
+                        </td>
+
+                        <td>
+
+                            <div class="actions">
+
+                                <a href="/edit-parent/{{ parent['id'] }}"
+                                   class="edit-button">
+                                    ✏️ Өзгөртүү
+                                </a>
+
+                                <form method="POST"
+      action="{{ url_for('delete_parent', parent_id=parent['id']) }}"
+      onsubmit="return confirm('Ата-энени өчүрөсүзбү?');">
+
+    <button type="submit" class="delete-button">
+        🗑️ Өчүрүү
+    </button>
+</form>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        {% else %}
+
+        <div class="empty">
+
+            <div class="empty-icon">
+                👨‍👩‍👦
+            </div>
+
+            <h3>
+                Азырынча ата-эне катталган жок
+            </h3>
+
+            <p>
+                Биринчи ата-энени кошуу үчүн төмөнкү баскычты басыңыз.
+            </p>
+
+            <a href="/add-parent" class="add-button">
+                ➕ Ата-эне кошуу
+            </a>
+
+        </div>
+
+        {% endif %}
+
+
+        <a href="/admin" class="back-link">
+            ← Админ панелине кайтуу
+        </a>
+
+    </section>
+
+</main>
+
+</div>
+
+</body> </html>

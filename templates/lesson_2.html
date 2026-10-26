@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ky">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2-сабак - Куран сабагы</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f7f6;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        h1, h2 {
+            color: #073b2b;
+        }
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .audio-section {
+            background: #eef7f3;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .quiz-section {
+            border-top: 2px solid #eee;
+            padding-top: 20px;
+            margin-top: 20px;
+        }
+        .btn {
+            display: inline-block;
+            background: #087653;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 6px;
+            margin-top: 15px;
+        }
+        .btn:hover {
+            background: #065e43;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>📖 2-сабак: Нуния эрежелери же Тамгалардын айтылышы</h1>
+    <p>Ассаламу алайкум! Бул сабакта биз тажвид эрежелери боюнча маанилүү темаларды өтөбүз.</p>
+
+    <!-- Видео Блок -->
+    <h2>🎥 Видео сабак</h2>
+    <div class="video-container">
+        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
+    </div>
+
+    <!-- Текст Блок -->
+    <h2>📚 Теориялык маалымат</h2>
+    <p>Бул сабакта Нун сакина жана Танвин эрежелери түшүндүрүлөт. Алар төмөнкүдөй бөлүнөт:</p>
+    <ul>
+        <li><strong>Изхар</strong> - тунук окуу</li>
+        <li><strong>Идгам</strong> - кийирип окуу</li>
+        <li><strong>Иклаб</strong> - алмаштырып окуу</li>
+        <li><strong>Ихфа</strong> - жашырып окуу</li>
+    </ul>
+
+    <!-- Аудио Блок -->
+    <div class="audio-section">
+        <h2>🎧 Аудио угуу</h2>
+        <p>Тамгалардын туура махражын угуп кайталаңыз:</p>
+        <audio controls style="width: 100%;">
+            <source src="{{ url_for('static', filename='audio/lesson2.mp3') }}" type="audio/mpeg">
+            Сиздин браузериңиз аудиону колдобойт.
+        </audio>
+    </div>
+
+    <!-- Тест / Тапшырма Блок -->
+    <div class="quiz-section">
+        <h2>✏️ Өзүңүздү текшериңиз</h2>
+        <form>
+            <p>1. Нун сакинадан кийин "Бам" тамгасы келсе кайсы эреже колдонулат?</p>
+            <input type="radio" id="q1a" name="q1" value="a">
+            <label for="q1a">Изхар</label><br>
+            <input type="radio" id="q1b" name="q1" value="b">
+            <label for="q1b">Иклаб</label><br>
+            <input type="radio" id="q1c" name="q1" value="c">
+            <label for="q1c">Ихфа</label><br>
+        </form>
+    </div>
+
+    <a href="{{ url_for('parent') }}" class="btn">← Сабактардын тизмесине кайтуу</a>
+</div>
+
+</body>
+</html>

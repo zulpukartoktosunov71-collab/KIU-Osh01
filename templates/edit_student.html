@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ky">
+<head>
+    <meta charset="UTF-8">
+    <title>Студенттин маалыматын оңдоо</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            padding: 30px;
+            background: linear-gradient(135deg, #eef7f3 0%, #f7faf9 100%);
+            color: #17372c;
+        }
+        .form-card {
+            max-width: 540px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.96);
+            padding: 28px 26px;
+            border-radius: 18px;
+            box-shadow: 0 14px 35px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e2ece8;
+        }
+        h2 {
+            margin-top: 0;
+            margin-bottom: 18px;
+            color: #123c2e;
+        }
+        .form-group { margin-bottom: 16px; }
+        label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: 700;
+            color: #355b4e;
+        }
+        input, select {
+            width: 100%;
+            padding: 12px 13px;
+            border: 1px solid #d7e4df;
+            border-radius: 10px;
+            box-sizing: border-box;
+            background: #fbfdfc;
+            color: #17372c;
+            font-size: 14px;
+        }
+        input:focus, select:focus {
+            outline: none;
+            border-color: #087653;
+            box-shadow: 0 0 0 3px rgba(8, 118, 83, .08);
+            background: white;
+        }
+        .btn {
+            background: linear-gradient(135deg, #087653, #0a9268);
+            color: white;
+            border: none;
+            padding: 12px 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            font-weight: 700;
+            box-shadow: 0 8px 20px rgba(8, 118, 83, 0.18);
+        }
+        .btn:hover {
+            background: linear-gradient(135deg, #065e43, #087653);
+        }
+        .message {
+            margin-bottom: 15px;
+            padding: 10px 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .message.error {
+            background: #fff0f0;
+            color: #b42318;
+            border: 1px solid #f6c7c7;
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-card">
+    <h2>✏️ Студенттин маалыматын оңдоо</h2>
+    {% if error %}
+        <div class="message error">❌ {{ error }}</div>
+    {% endif %}
+    <form method="POST">
+        <div class="form-group">
+            <label>Аты-жөнү:</label>
+            <input type="text" name="name" value="{{ student['name'] }}" required>
+        </div>
+        <div class="form-group">
+            <label>Тулган жылы:</label>
+            <input type="number" name="birth_year" value="{{ student['birth_year'] }}">
+        </div>
+        <div class="form-group">
+            <label>Курсу:</label>
+            <select name="course_id" required>
+                {% for course in courses %}
+                    <option value="{{ course['id'] }}" {% if course['id'] == student['course_id'] %}selected{% endif %}>
+                        {{ course['name'] }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Ата-энесинин аты:</label>
+            <input type="text" name="parent_name" value="{{ student['parent_name'] }}">
+        </div>
+        <div class="form-group">
+            <label>Телефон номери:</label>
+            <input type="text" name="phone" value="{{ student['phone'] }}">
+        </div>
+        <button type="submit" class="btn">Сактоо</button>
+    </form>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+
+<html lang="ky">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Студенттер — Мугалим</title>
+
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}">
+
+<style>
+
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        font-family: "Segoe UI", Arial, sans-serif;
+        background: #f4f7f6;
+        color: #17372c;
+    }
+
+    .page {
+        min-height: 100vh;
+        padding: 30px;
+    }
+
+    .container {
+        max-width: 1250px;
+        margin: 0 auto;
+    }
+
+    /* HEADER */
+
+    .header {
+        background: linear-gradient(135deg, #087653, #0b8a63);
+        color: white;
+        border-radius: 20px;
+        padding: 28px 30px;
+        margin-bottom: 22px;
+    }
+
+    .header-top {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+    }
+
+    .logo {
+        width: 72px;
+        height: 72px;
+        object-fit: contain;
+        background: white;
+        border-radius: 14px;
+        padding: 6px;
+        flex-shrink: 0;
+    }
+
+    .header h1 {
+        margin: 0 0 6px;
+        font-size: 27px;
+    }
+
+    .header h2 {
+        margin: 0 0 5px;
+        font-size: 18px;
+        font-weight: 600;
+    }
+
+    .header p {
+        margin: 4px 0;
+        opacity: .92;
+        font-size: 14px;
+    }
+
+    /* INFO */
+
+    .info-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+        margin-bottom: 22px;
+    }
+
+    .info-card {
+        background: white;
+        border: 1px solid #e0e9e5;
+        border-radius: 16px;
+        padding: 20px;
+    }
+
+    .info-card .icon {
+        font-size: 25px;
+        margin-bottom: 8px;
+    }
+
+    .info-card span {
+        display: block;
+        color: #7b8983;
+        font-size: 12px;
+        margin-bottom: 5px;
+    }
+
+    .info-card strong {
+        font-size: 18px;
+        color: #123c2e;
+    }
+
+    /* SECTION */
+
+    .section {
+        background: white;
+        border: 1px solid #e0e9e5;
+        border-radius: 18px;
+        padding: 24px;
+        overflow: hidden;
+    }
+
+    .section-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+
+    .section-header h2 {
+        margin: 0;
+        color: #123c2e;
+        font-size: 20px;
+    }
+
+    .student-count {
+        padding: 7px 12px;
+        border-radius: 20px;
+        background: #edf8f3;
+        color: #087653;
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    /* TABLE */
+
+    .table-wrapper {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 850px;
+    }
+
+    th {
+        background: #f2f7f5;
+        color: #426257;
+        font-size: 12px;
+        text-align: left;
+        padding: 14px 12px;
+        white-space: nowrap;
+    }
+
+    td {
+        padding: 14px 12px;
+        border-bottom: 1px solid #edf1ef;
+        font-size: 13px;
+        vertical-align: middle;
+    }
+
+    tbody tr:hover {
+        background: #fafcfb;
+    }
+
+    .number {
+        width: 45px;
+        color: #7c8a84;
+        font-weight: 600;
+    }
+
+    .student-name {
+        color: #123c2e;
+        font-weight: 700;
+    }
+
+    .course-year {
+        color: #687a72;
+    }
+
+    /* BUTTONS */
+
+    .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 7px;
+        min-width: 280px;
+    }
+
+    .button {
+        display: inline-block;
+        padding: 8px 10px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-size: 11px;
+        font-weight: 700;
+        white-space: nowrap;
+    }
+
+    .profile {
+        background: #edf8f3;
+        color: #087653;
+    }
+
+    .attendance {
+        background: #eef4fb;
+        color: #32618c;
+    }
+
+    .quran {
+        background: #f8f2e8;
+        color: #896b31;
+    }
+
+    .button:hover {
+        opacity: .82;
+    }
+
+    /* EMPTY */
+
+    .empty {
+        text-align: center;
+        padding: 45px 20px;
+        color: #7b8983;
+    }
+
+    .empty-icon {
+        font-size: 45px;
+        margin-bottom: 12px;
+    }
+
+    .empty h3 {
+        margin: 0 0 7px;
+        color: #355b4e;
+    }
+
+    .empty p {
+        margin: 0;
+        font-size: 13px;
+    }
+
+    /* BACK */
+
+    .back {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 12px 18px;
+        border-radius: 10px;
+        background: white;
+        border: 1px solid #dfe8e4;
+        color: #087653;
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+    .back:hover {
+        background: #edf8f3;
+    }
+
+    /* MOBILE */
+
+    @media (max-width: 800px) {
+
+        .page {
+            padding: 15px;
+        }
+
+        .header {
+            padding: 22px;
+        }
+
+        .header-top {
+            align-items: flex-start;
+        }
+
+        .logo {
+            width: 58px;
+            height: 58px;
+        }
+
+        .header h1 {
+            font-size: 22px;
+        }
+
+        .info-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .section {
+            padding: 18px;
+        }
+
+        .section-header {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+    }
+
+</style>
+
+</head>
+
+<body>
+
+<div class="page">
+
+<div class="container">
+
+
+    <!-- HEADER -->
+
+    <header class="header">
+
+        <div class="header-top">
+
+            <img
+                src="{{ url_for('static', filename='images/logo.png') }}"
+                alt="Логотип"
+                class="logo"
+            >
+
+            <div>
+
+                <h1>
+                    👨‍🎓 Студенттер
+                </h1>
+
+                <h2>
+                    {{ assignment["subject_name"] }}
+                </h2>
+
+                <p>
+                    🎓 {{ assignment["course_name"] }}
+                </p>
+
+                <p>
+                    👨‍🏫 Мугалим: {{ teacher_name }}
+                </p>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- INFO CARDS -->
+
+    <div class="info-grid">
+
+
+        <div class="info-card">
+
+            <div class="icon">
+                👨‍🎓
+            </div>
+
+            <span>
+                Студенттердин саны
+            </span>
+
+            <strong>
+                {{ students|length }}
+            </strong>
+
+        </div>
+
+
+        <div class="info-card">
+
+            <div class="icon">
+                📚
+            </div>
+
+            <span>
+                Сабак
+            </span>
+
+            <strong>
+                {{ assignment["subject_name"] }}
+            </strong>
+
+        </div>
+
+
+        <div class="info-card">
+
+            <div class="icon">
+                🎓
+            </div>
+
+            <span>
+                Курс
+            </span>
+
+            <strong>
+                {{ assignment["course_name"] }}
+            </strong>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- STUDENTS -->
+
+    <section class="section">
+
+
+        <div class="section-header">
+
+            <h2>
+                📋 Студенттердин тизмеси
+            </h2>
+
+            {% if students %}
+
+            <div class="student-count">
+                {{ students|length }} студент
+            </div>
+
+            {% endif %}
+
+        </div>
+
+
+        {% if students %}
+
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            №
+                        </th>
+
+                        <th>
+                            Аты-жөнү
+                        </th>
+
+                        <th>
+                            Туулган жылы
+                        </th>
+
+                        <th>
+                            Ата-энеси
+                        </th>
+
+                        <th>
+                            Телефон
+                        </th>
+
+                        <th>
+                            Башкаруу
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+
+                    {% for student in students %}
+
+                    <tr>
+
+
+                        <td class="number">
+                            {{ loop.index }}
+                        </td>
+
+
+                        <td class="student-name">
+                            {{ student["name"] }}
+                        </td>
+
+
+                        <td class="course-year">
+                            {{ student["birth_year"] }}
+                        </td>
+
+
+                        <td>
+                            {{ student["parent_name"] }}
+                        </td>
+
+
+                        <td>
+                            {{ student["phone"] }}
+                        </td>
+
+
+                        <td>
+
+                            <div class="actions">
+
+
+                                <a
+                                    href="{{ url_for('student_profile', student_id=student['id']) }}"
+                                    class="button profile"
+                                >
+                                    👤 Профиль
+                                </a>
+
+
+                                <a
+                                    href="/teacher/attendance/{{ assignment['id'] }}/{{ student['id'] }}"
+                                    class="button attendance"
+                                >
+                                    📝 Катышуу жана баа
+                                </a>
+
+
+                               <a href="{{ url_for('teacher_quran_progress', student_id=student['id']) }}">Куран прогресси</a>
+
+                            </div>
+
+                        </td>
+
+
+                    </tr>
+
+                    {% endfor %}
+
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        {% else %}
+
+
+        <div class="empty">
+
+            <div class="empty-icon">
+                👨‍🎓
+            </div>
+
+            <h3>
+                Студент жок
+            </h3>
+
+            <p>
+                Бул курста азырынча студент катталган эмес.
+            </p>
+
+        </div>
+
+
+        {% endif %}
+
+
+    </section>
+
+
+    <!-- BACK -->
+
+    <a
+        href="{{ url_for('teacher') }}"
+        class="back"
+    >
+        ← Мугалимдин кабинетине кайтуу
+    </a>
+
+
+</div>
+
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,718 @@
+{
+box-sizing: border-box;
+}
+
+{
+--green: #087653;
+--green-dark: #065e43;
+--green-light: #edf8f3;
+--text: #17372c;
+--gray: #71847c;
+--background: #f4f7f6;
+--white: #ffffff;
+--border: #e0e9e5;
+--shadow: 0 10px 30px rgba(10, 60, 42, 0.08);
+--shadow-hover: 0 18px 45px rgba(10, 60, 42, 0.14);
+}
+
+html {
+scroll-behavior: smooth;
+}
+
+body {
+margin: 0;
+font-family: Arial, "Segoe UI", sans-serif;
+background: var(--background);
+color: var(--text);
+}
+
+/* Жалпы контейнер */
+
+.container {
+max-width: 1200px;
+width: 94%;
+margin: 0 auto;
+}
+
+/* Ссылкалар */
+
+a {
+color: var(--green);
+text-decoration: none;
+transition: 0.2s ease;
+}
+
+a {
+color: var(--green-dark);
+}
+
+/* ========================================
+LOGIN
+======================================== */
+
+.login-container {
+min-height: 100vh;
+display: flex;
+justify-content: center;
+align-items: center;
+padding: 20px;
+background: linear-gradient(135deg, #edf8f3, #dcefe7);
+}
+
+.login-card {
+width: 100%;
+max-width: 440px;
+background: var(--white);
+padding: 38px;
+border-radius: 22px;
+border: 1px solid var(--border);
+box-shadow: var(--shadow-hover);
+}
+
+.login-card h1 {
+text-align: center;
+color: var(--green);
+font-size: 25px;
+line-height: 1.4;
+margin: 0 0 10px;
+}
+
+.subtitle {
+text-align: center;
+color: var(--gray);
+margin: 0 0 30px;
+}
+
+.login-card label {
+display: block;
+margin: 0 0 8px;
+font-weight: bold;
+}
+
+.login-card input {
+width: 100%;
+padding: 14px 15px;
+margin-bottom: 18px;
+border: 1px solid var(--border);
+border-radius: 12px;
+font-size: 16px;
+background: white;
+}
+
+.login-card input {
+outline: none;
+border-color: var(--green);
+box-shadow: 0 0 0 4px rgba(8, 118, 83, 0.09);
+}
+
+.login-card button {
+width: 100%;
+margin-top: 5px;
+padding: 15px;
+border: none;
+border-radius: 12px;
+background: var(--green);
+color: white;
+font-size: 16px;
+font-weight: bold;
+cursor: pointer;
+transition: 0.2s ease;
+}
+
+.login-card button {
+background: var(--green-dark);
+}
+
+.error {
+margin-top: 15px;
+padding: 12px;
+background: #fff3f3;
+color: #b42318;
+border: 1px solid #f1c7c7;
+border-radius: 10px;
+text-align: center;
+}
+
+/* ========================================
+HEADER
+======================================== */
+
+.header {
+background: rgba(255, 255, 255, 0.96);
+border-bottom: 1px solid var(--border);
+box-shadow: 0 2px 15px rgba(0, 0, 0, 0.03);
+}
+
+.navbar {
+min-height: 72px;
+display: flex;
+align-items: center;
+justify-content: space-between;
+}
+
+.nav {
+display: flex;
+gap: 10px;
+align-items: center;
+}
+
+.nav a {
+padding: 10px 15px;
+border-radius: 10px;
+}
+
+.nav a {
+background: var(--green-light);
+color: var(--green);
+}
+
+/* ========================================
+BUTTONS
+======================================== */
+
+.btn {
+display: inline-flex;
+justify-content: center;
+align-items: center;
+min-height: 46px;
+padding: 12px 22px;
+border-radius: 11px;
+border: none;
+cursor: pointer;
+transition: 0.25s ease;
+}
+
+.btn-primary {
+background: var(--green);
+color: white;
+box-shadow: 0 7px 18px rgba(8, 118, 83, 0.18);
+}
+
+.btn-primary {
+background: var(--green-dark);
+color: white;
+transform: translateY(-2px);
+}
+
+.btn-light {
+background: white;
+color: var(--text);
+border: 1px solid var(--border);
+}
+
+.btn-light {
+transform: translateY(-2px);
+box-shadow: var(--shadow);
+}
+
+button {
+font-family: inherit;
+}
+
+/* ========================================
+FORMS
+======================================== */
+
+input,
+select,
+textarea {
+border: 1px solid var(--border);
+border-radius: 10px;
+background: white;
+color: var(--text);
+padding: 11px 13px;
+transition: 0.2s ease;
+}
+
+input,
+select,
+textarea {
+outline: none;
+border-color: var(--green);
+box-shadow: 0 0 0 4px rgba(8, 118, 83, 0.09);
+}
+
+textarea {
+min-height: 100px;
+resize: vertical;
+}
+
+/* ========================================
+CARDS
+======================================== */
+
+.card,
+.stat-card,
+.dashboard-card,
+.admin-card,
+.hero-card,
+.level-card,
+.course-card,
+.deen-card {
+border: 1px solid var(--border);
+border-radius: 18px;
+background: white;
+box-shadow: var(--shadow);
+transition: 0.25s ease;
+}
+
+.card,
+.stat-card,
+.dashboard-card,
+.admin-card,
+.hero-card,
+.level-card,
+.course-card,
+.deen-card {
+box-shadow: var(--shadow-hover);
+}
+
+/* ========================================
+HERO
+======================================== */
+
+.hero {
+padding: 90px 0;
+background:
+radial-gradient(
+circle at 85% 15%,
+#d9f3e6 0,
+transparent 30%
+),
+linear-gradient(
+135deg,
+#f2faf6,
+#ffffff
+);
+}
+
+.hero h1 {
+font-weight: 800;
+letter-spacing: -1.5px;
+}
+
+.hero h1 span {
+color: var(--green);
+}
+
+.hero-content > p {
+line-height: 1.8;
+}
+
+/* ========================================
+BADGE
+======================================== */
+
+.badge {
+background: var(--green-light);
+border: 1px solid #ccebdd;
+color: var(--green);
+box-shadow: 0 4px 12px rgba(8, 118, 83, 0.06);
+}
+
+/* ========================================
+PROGRESS
+======================================== */
+
+.progress {
+height: 10px;
+border-radius: 20px;
+background: #e5eee9;
+overflow: hidden;
+}
+
+.progress-bar {
+height: 100%;
+border-radius: 20px;
+background: linear-gradient(
+90deg,
+#087653,
+#27ae7d
+);
+}
+
+/* ========================================
+TABLE
+======================================== */
+
+table {
+width: 100%;
+border-collapse: separate;
+border-spacing: 0;
+background: white;
+border: 1px solid var(--border);
+border-radius: 15px;
+overflow: hidden;
+box-shadow: var(--shadow);
+}
+
+th {
+background: #edf7f2;
+color: var(--green-dark);
+font-weight: 700;
+}
+
+th,
+td {
+padding: 13px 15px;
+border-bottom: 1px solid var(--border);
+text-align: left;
+}
+
+tr td {
+border-bottom: none;
+}
+
+tbody tr {
+transition: background 0.2s ease;
+}
+
+tbody tr {
+background: #f5faf7;
+}
+
+/* ========================================
+ADMIN PANEL
+======================================== */
+
+.admin-page {
+min-height: 100vh;
+background: #f3f7f6;
+}
+
+.admin-header {
+background: var(--green);
+color: white;
+padding: 20px 40px;
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
+
+.admin-header h1 {
+color: white;
+margin: 0;
+}
+
+.admin-header p {
+margin: 5px 0 0;
+opacity: 0.85;
+}
+
+.admin-container {
+max-width: 1200px;
+margin: 40px auto;
+padding: 0 20px;
+}
+
+.admin-container > h2 {
+color: #333;
+margin-bottom: 25px;
+}
+
+.admin-cards {
+display: grid;
+grid-template-columns: repeat(4, 1fr);
+gap: 20px;
+}
+
+.admin-card {
+padding: 25px;
+text-align: center;
+}
+
+.admin-card .icon {
+font-size: 45px;
+margin-bottom: 10px;
+}
+
+.admin-card h3 {
+margin: 10px 0;
+color: var(--green);
+}
+
+.admin-card p {
+color: #777;
+font-size: 14px;
+}
+
+.admin-card button {
+margin-top: 10px;
+}
+
+.logout {
+width: auto;
+margin: 0;
+padding: 10px 20px;
+background: white;
+color: var(--green);
+}
+
+/* ========================================
+ASSIGNMENT
+======================================== */
+
+.assignment {
+background: white;
+margin-top: 35px;
+padding: 30px;
+border-radius: 16px;
+box-shadow: var(--shadow);
+}
+
+.assignment h2 {
+color: var(--green);
+}
+
+.assignment p {
+color: #666;
+}
+
+.assignment-box {
+margin-top: 25px;
+display: grid;
+grid-template-columns: 1fr 1fr 1fr auto;
+gap: 15px;
+align-items: end;
+}
+
+.assignment-box select {
+width: 100%;
+padding: 13px;
+border-radius: 9px;
+font-size: 15px;
+}
+
+.save-btn {
+margin: 0;
+width: auto;
+white-space: nowrap;
+}
+
+/* ========================================
+QURAN / NAMAZ
+======================================== */
+
+.namaz-section {
+background:
+radial-gradient(
+circle at 90% 20%,
+#14553d,
+transparent 30%
+),
+linear-gradient(
+135deg,
+#092f22,
+#0f4934
+);
+}
+
+.step {
+border-radius: 14px;
+transition: 0.25s ease;
+}
+
+.step {
+background: rgba(255, 255, 255, 0.1);
+transform: translateY(-3px);
+}
+
+/* ========================================
+QUESTIONS
+======================================== */
+
+.question-box {
+border: 1px solid #d5e9df;
+box-shadow: var(--shadow);
+}
+
+.search-input {
+border-radius: 13px;
+box-shadow: 0 5px 18px rgba(10, 60, 42, 0.05);
+}
+
+.search-input {
+border-color: var(--green);
+box-shadow: 0 0 0 4px rgba(8, 118, 83, 0.1);
+}
+
+/* ========================================
+FOOTER
+======================================== */
+
+.footer {
+background:
+linear-gradient(
+135deg,
+#08291e,
+#0e3d2d
+);
+}
+
+/* ========================================
+LOGO / BRAND
+======================================== */
+
+.brand {
+text-align: center;
+}
+
+.brand-logo {
+width: 100px;
+height: 100px;
+object-fit: contain;
+display: block;
+margin: 0 auto 15px;
+}
+
+.brand h2 {
+font-size: 15px;
+line-height: 1.5;
+margin: 0;
+}
+
+.brand p {
+margin-top: 8px;
+}
+
+/* ========================================
+MOBILE
+======================================== */
+
+@media (max-width: 900px) {
+
+.admin-cards {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.assignment-box {
+    grid-template-columns: 1fr;
+}
+
+.save-btn {
+    width: 100%;
+}
+
+.hero {
+    padding: 65px 0;
+}
+
+.hero-card {
+    padding: 30px 22px;
+}
+
+table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+}
+
+@media (max-width: 600px) {
+
+.admin-header {
+    padding: 20px;
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+}
+
+.admin-cards {
+    grid-template-columns: 1fr;
+}
+
+.admin-container {
+    margin: 25px auto;
+}
+
+.nav {
+    flex-wrap: wrap;
+}
+
+.hero h1 {
+    font-size: 38px;
+    letter-spacing: -1px;
+}
+
+.hero-content > p {
+    font-size: 16px;
+}
+
+.btn {
+    width: 100%;
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+    font-size: 16px;
+}
+
+.login-card {
+    padding: 28px 20px;
+}
+
+}
+
+/* ========================================
+SCROLLBAR
+======================================== */
+
+::-webkit-scrollbar {
+width: 9px;
+}
+
+::-webkit-scrollbar-track {
+background: #f1f5f3;
+}
+
+::-webkit-scrollbar-thumb {
+background: #a8c9ba;
+border-radius: 20px;
+}
+
+::-webkit-scrollbar-thumb {
+background: var(--green);
+}
+
+/* Статистика карточкаларынын жалпы тармагы (Grid) */
+.stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+/* Карточканын негизги стили */
+.stats .stat-card {
+    display: flex;
+    flex-direction: column;
+    background: #ffffff;
+    border: 1px solid #e0e9e4;
+    border-radius: 14px;
+    padding: 20px;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+/* Hover эффектиси */
+.stats .stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    border-color: #087653; /* Четтери жашыл түскө өзгөрөт */
+}
+
+/* Төмөнкү шилтеме ("Тизмени көрүү →") */
+.stats .stat-card span {
+    display: block;
+    margin-top: auto; /* Ар дайым карточканын эң астына түшүрөт */
+    padding-top: 10px;
+    color: #087653; /* Долбоордун негизги жашыл түсү */
+    font-size: 14px;
+    font-weight: 600;
+}

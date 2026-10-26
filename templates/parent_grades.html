@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ky">
+<head>
+    <meta charset="UTF-8">
+    <title>Баалар журналы</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background-color: #f4f7f6; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        th { background-color: #087653; color: white; }
+        .back-btn { display: inline-block; margin-bottom: 15px; color: #087653; text-decoration: none; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <div class="card" style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+    <h3>💳 Окуу төлөмү жана реквизиттер</h3>
+    <p><strong>Жылдык төлөм суммасы:</strong> {{ student.annual_fee or 35000 }} сом</p>
+    <p><strong>Төлөнгөн сумма:</strong> <span style="color: #16a34a; font-weight: bold;">{{ student.paid_fee or 0 }} сом</span></p>
+    <p><strong>Калдык долг:</strong> <span style="color: #dc2626; font-weight: bold;">{{ (student.annual_fee or 35000) - (student.paid_fee or 0) }} сом</span></p>
+    
+    <hr style="border: 0; border-top: 1px solid #cbd5e1; margin: 15px 0;">
+    
+    <h4>🏛️ КИУ Ош колледжинин реквизиттери:</h4>
+    <p><strong>Банк:</strong> «Оптима Банк» ААК</p>
+    <p><strong>ИК:</strong> 1234567890</p>
+    <p><strong>БИК:</strong> 109018</p>
+    <p><strong>Р/С (Эсеп шот):</strong> 1091820100012345</p>
+    <p><strong>Алуучу:</strong> КИУ Ош колледжи Куран жаттатуу борбору</p>
+    <p><strong>Төлөм максаты:</strong> Студенттин аты-жөнү, окуу төлөмү</p>
+</div>
+
+<div class="container">
+    <a href="{{ url_for('parent') }}" class="back-btn">⬅️ Артка кайтуу</a>
+    <h2>📊 {{ student['name'] }} — Баалар журналы</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Дата</th>
+                <th>Сабак / Предмет</th>
+                <th>Тема</th>
+                <th>Баа</th>
+                <th>Пикир (Коммент)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for g in grades %}
+            <tr>
+                <td>{{ g['lesson_date'] }}</td>
+                <td>{{ g['course_name'] }}</td>
+                <td>{{ g['topic'] }}</td>
+                <td><b>{{ g['grade'] }}</b></td>
+                <td>{{ g['comment'] or '-' }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="5" style="text-align: center;">Баалар азырынча жок.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+</body>
+</html>
